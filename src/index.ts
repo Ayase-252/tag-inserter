@@ -1,11 +1,11 @@
-type Markup = {
+export type Markup = {
   start: number;
   end: number;
   startTag: string;
   type: string;
 };
 
-type BlockNode = {
+export type BlockNode = {
   text: string;
   markups: Markup[];
 };
