@@ -1,4 +1,4 @@
-export function extractOpeningTagFromElement(elem: HTMLElement): string {
+export function extractStartTagFromElement(elem: HTMLElement): string {
   const START_TAG_REGEX = /<[a-z]+.*?>/;
   const outerHTML = elem.outerHTML;
   const startTagMatch = START_TAG_REGEX.exec(outerHTML);
