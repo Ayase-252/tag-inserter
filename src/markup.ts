@@ -9,6 +9,10 @@ export type LegacyMarkup = {
   type: string;
 };
 
+export function createMarkup(markup: LegacyMarkup): Markup {
+  return new Markup(markup);
+}
+
 class Markup {
   _markup: LegacyMarkup;
   constructor(markup: LegacyMarkup) {

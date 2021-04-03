@@ -1,5 +1,5 @@
 import { BlockNode } from "./types";
-import Markup from "./markup";
+import { createMarkup } from "./markup";
 
 function extractStartTagFromElement(elem: HTMLElement): string {
   const START_TAG_REGEX = /<[a-z]+.*?>/;
@@ -15,7 +15,7 @@ function extractStartTagFromElement(elem: HTMLElement): string {
 export function parseHTMLElementToBlockNode (elem: HTMLElement, startCol = 0): BlockNode {
   let currCol = startCol
   let text = "";
-  const markups: Markup[] = [];
+  const markups = [];
   for (const child of Array.from(elem.childNodes)) {
     if (!child.textContent) {
       continue;
@@ -26,7 +26,7 @@ export function parseHTMLElementToBlockNode (elem: HTMLElement, startCol = 0): B
           ? parseHTMLElementToBlockNode(child as HTMLElement, currCol).markups
           : [];
 
-      const markupInCurrentChild = new Markup({
+      const markupInCurrentChild = createMarkup({
         start: currCol,
         end: currCol + child.textContent.length - 1,
         type: child.nodeName.toLowerCase(),
