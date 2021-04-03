@@ -1,9 +1,8 @@
 import { renderBlockNode } from "../renderer";
-import { BlockNode } from "..";
 
 describe("renderer", () => {
   it("should render a block node into html", () => {
-    const blockNode: BlockNode = {
+    const blockNode = {
       text: "hello world",
       markups: [
         {

@@ -1,14 +1,4 @@
-export type Markup = {
-  start: number;
-  end: number;
-  startTag: string;
-  type: string;
-};
-
-export type BlockNode = {
-  text: string;
-  markups: Markup[];
-};
+import { BlockNode, Markup } from "./types";
 
 function createFragmentFromStr(htmlStr: string) {
   const fragment = document.createElement("div");

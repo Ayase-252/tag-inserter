@@ -1,4 +1,4 @@
-import { Markup, BlockNode } from ".";
+import { Markup, BlockNode } from "./types";
 
 type MarkupEvent = {
   event: "start" | "end";
@@ -17,11 +17,11 @@ export function renderBlockNode(blockNode: BlockNode): string {
   const eventsMap = new Map<number, MarkupEvent[]>();
   const idxMarks = new Set<number>();
   // transform block node to a series of open and close operation of a node
-  blockNode.markups.forEach(markup => {
+  blockNode.markups.forEach((markup) => {
     eventsMap.set(
       markup.start,
       (eventsMap.get(markup.start) || []).concat([
-        { event: "start", relatedMarkup: markup }
+        { event: "start", relatedMarkup: markup },
       ])
     );
     idxMarks.add(markup.start);
@@ -29,7 +29,7 @@ export function renderBlockNode(blockNode: BlockNode): string {
     eventsMap.set(
       markup.end + 1,
       (eventsMap.get(markup.end + 1) || []).concat([
-        { event: "end", relatedMarkup: markup }
+        { event: "end", relatedMarkup: markup },
       ])
     );
     idxMarks.add(markup.end + 1);
@@ -44,7 +44,7 @@ export function renderBlockNode(blockNode: BlockNode): string {
     renderedText += blockNode.text.substring(currIdx, idx - 1);
 
     eventInCurr &&
-      eventInCurr.forEach(event => {
+      eventInCurr.forEach((event) => {
         if (event.event === "start") {
           renderedText += getMarkupOpenTag(event.relatedMarkup);
         } else {
