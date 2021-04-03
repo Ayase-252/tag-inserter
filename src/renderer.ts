@@ -14,7 +14,7 @@ function getMarkupCloseTag(markup: Markup) {
 }
 
 export function renderBlockNode(blockNode: BlockNode): string {
-  const eventsMap = new Map<Number, MarkupEvent[]>();
+  const eventsMap = new Map<number, MarkupEvent[]>();
   const idxMarks = new Set<number>();
   // transform block node to a series of open and close operation of a node
   blockNode.markups.forEach(markup => {
