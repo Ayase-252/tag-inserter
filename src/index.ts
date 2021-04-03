@@ -1,5 +1,5 @@
 import { BlockNode, Markup } from "./types";
-import { extractOpeningTagFromElement } from "./parser";
+import { extractStartTagFromElement } from "./parser";
 
 function createFragmentFromStr(htmlStr: string) {
   const fragment = document.createElement("div");
@@ -36,7 +36,7 @@ export function parseHTMLStringToNode(htmlStr: string): BlockNode {
           start: currCol,
           end: currCol + child.textContent.length - 1,
           type: child.nodeName.toLowerCase(),
-          startTag: extractOpeningTagFromElement(child as HTMLElement),
+          startTag: extractStartTagFromElement(child as HTMLElement),
         };
         markups.push(
           markupInCurrentChild,
