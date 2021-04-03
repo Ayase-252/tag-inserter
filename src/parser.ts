@@ -12,17 +12,10 @@ function extractStartTagFromElement(elem: HTMLElement): string {
   return startTagMatch[0];
 }
 
-export function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
-  function addOffsetForNestedMarkup(markups: Markup[]): Markup[] {
-    return markups.map((markup) => {
-      markup.start = currCol + markup.start;
-      markup.end = currCol + markup.end;
-      return markup;
-    });
-  }
+export function parseHTMLElementToBlockNode (elem: HTMLElement, startCol = 0): BlockNode {
+  let currCol = startCol
   let text = "";
   const markups: Markup[] = [];
-  let currCol = 0;
   for (const child of Array.from(elem.childNodes)) {
     if (!child.textContent) {
       continue;
@@ -30,7 +23,7 @@ export function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
     if (child.nodeType === Node.ELEMENT_NODE) {
       const markupsInChildNodes =
         child.childNodes.length > 0
-          ? parseHTMLElementToBlockNode(child as HTMLElement).markups
+          ? parseHTMLElementToBlockNode(child as HTMLElement, currCol).markups
           : [];
 
       const markupInCurrentChild = new Markup({
@@ -41,7 +34,7 @@ export function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
       });
       markups.push(
         markupInCurrentChild,
-        ...addOffsetForNestedMarkup(markupsInChildNodes)
+        ...markupsInChildNodes
       );
     }
     text += child.textContent;
