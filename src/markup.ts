@@ -15,11 +15,11 @@ class Markup {
     this._markup = markup;
   }
 
-  get startTag() {
+  get startTag(): string {
     return this._markup.startTag;
   }
 
-  get closeTag() {
+  get closeTag(): string {
     return `</${this._markup.type}>`;
   }
 
@@ -27,7 +27,7 @@ class Markup {
     this._markup.start = val;
   }
 
-  get start() {
+  get start(): number {
     return this._markup.start;
   }
 
@@ -35,11 +35,11 @@ class Markup {
     this._markup.end = val;
   }
 
-  get end() {
+  get end(): number {
     return this._markup.end;
   }
 
-  get type() {
+  get type(): string {
     return this._markup.type;
   }
 }

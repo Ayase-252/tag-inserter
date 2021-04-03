@@ -1,5 +1,5 @@
 import { BlockNode } from "./types";
-import Markup, { LegacyMarkup } from "./markup";
+import Markup from "./markup";
 import { extractStartTagFromElement } from "./parser";
 
 function createFragmentFromStr(htmlStr: string) {

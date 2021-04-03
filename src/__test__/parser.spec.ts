@@ -43,7 +43,7 @@ describe("Parser", () => {
     const node = parseHTMLStringToNode(`<b>hell</b>o world`);
 
     expect(node.text).toBe("hello world");
-    let markup = node.markups[0];
+    const markup = node.markups[0];
     expect(markup.start).toEqual(1);
     expect(markup.end).toEqual(4);
     expect(markup.startTag).toEqual(`<b>`);
