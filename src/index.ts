@@ -1,4 +1,5 @@
-import { BlockNode, Markup } from "./types";
+import { BlockNode } from "./types";
+import Markup, { LegacyMarkup } from "./markup";
 import { extractStartTagFromElement } from "./parser";
 
 function createFragmentFromStr(htmlStr: string) {
@@ -8,12 +9,13 @@ function createFragmentFromStr(htmlStr: string) {
 }
 
 function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
-  function addOffsetForMarkupInsideElement(markups: Markup[]): Markup[] {
+  function addOffsetForMarkupInsideElement(
+    markups: Markup[]
+  ): Markup[] {
     return markups.map((markup) => {
-      return Object.assign({}, markup, {
-        start: currCol + markup.start - 1,
-        end: currCol + markup.end - 1,
-      });
+      markup.start = currCol + markup.start - 1
+      markup.end = currCol + markup.end - 1
+      return markup
     });
   }
   let text = "";
@@ -29,12 +31,12 @@ function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
           ? parseHTMLElementToBlockNode(child as HTMLElement).markups
           : [];
 
-      const markupInCurrentChild: Markup = {
+      const markupInCurrentChild = new Markup({
         start: currCol,
         end: currCol + child.textContent.length - 1,
         type: child.nodeName.toLowerCase(),
         startTag: extractStartTagFromElement(child as HTMLElement),
-      };
+      });
       markups.push(
         markupInCurrentChild,
         ...addOffsetForMarkupInsideElement(markupsInChildNodes)

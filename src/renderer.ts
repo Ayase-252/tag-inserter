@@ -1,4 +1,5 @@
-import { Markup, BlockNode } from "./types";
+import Markup from "./markup";
+import { BlockNode } from "./types";
 
 type MarkupEvent = {
   event: "start" | "end";

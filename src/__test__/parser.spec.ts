@@ -13,12 +13,11 @@ describe("Parser", () => {
     );
 
     expect(node.text).toBe("hello world");
-    expect(node.markups[0]).toEqual({
-      start: 7,
-      end: 9,
-      startTag: `<span class="hello world">`,
-      type: "span",
-    });
+    const markup = node.markups[0];
+    expect(markup.start).toEqual(7);
+    expect(markup.end).toEqual(9);
+    expect(markup.startTag).toEqual(`<span class="hello world">`);
+    expect(markup.type).toEqual("span");
   });
 
   it("should parse nested inline tag correctly", () => {
@@ -26,30 +25,28 @@ describe("Parser", () => {
       `hello <span class="hello world">w<b>o</b>r</span>ld`
     );
     expect(node.text).toBe("hello world");
-    expect(node.markups[0]).toEqual({
-      start: 7,
-      end: 9,
-      startTag: `<span class="hello world">`,
-      type: "span",
-    });
 
-    expect(node.markups[1]).toEqual({
-      start: 8,
-      end: 8,
-      startTag: `<b>`,
-      type: "b",
-    });
+    let markup = node.markups[0];
+    expect(markup.start).toEqual(7);
+    expect(markup.end).toEqual(9);
+    expect(markup.startTag).toEqual(`<span class="hello world">`);
+    expect(markup.type).toEqual("span");
+
+    markup = node.markups[1];
+    expect(markup.start).toEqual(8);
+    expect(markup.end).toEqual(8);
+    expect(markup.startTag).toEqual(`<b>`);
+    expect(markup.type).toEqual("b");
   });
 
   it("should parse nested tag in the head of string correctly", () => {
     const node = parseHTMLStringToNode(`<b>hell</b>o world`);
 
     expect(node.text).toBe("hello world");
-    expect(node.markups[0]).toEqual({
-      start: 1,
-      end: 4,
-      startTag: `<b>`,
-      type: "b",
-    });
+    let markup = node.markups[0];
+    expect(markup.start).toEqual(1);
+    expect(markup.end).toEqual(4);
+    expect(markup.startTag).toEqual(`<b>`);
+    expect(markup.type).toEqual("b");
   });
 });
