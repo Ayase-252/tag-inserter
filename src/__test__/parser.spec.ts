@@ -14,8 +14,6 @@ describe("Parser", () => {
 
     expect(node.text).toBe("hello world");
     const markup = node.markups[0];
-    expect(markup.start).toEqual(7);
-    expect(markup.end).toEqual(9);
     expect(markup.startTag).toEqual(`<span class="hello world">`);
     expect(markup.type).toEqual("span");
   });
@@ -27,14 +25,10 @@ describe("Parser", () => {
     expect(node.text).toBe("hello world");
 
     let markup = node.markups[0];
-    expect(markup.start).toEqual(7);
-    expect(markup.end).toEqual(9);
     expect(markup.startTag).toEqual(`<span class="hello world">`);
     expect(markup.type).toEqual("span");
 
     markup = node.markups[1];
-    expect(markup.start).toEqual(8);
-    expect(markup.end).toEqual(8);
     expect(markup.startTag).toEqual(`<b>`);
     expect(markup.type).toEqual("b");
   });
@@ -44,9 +38,31 @@ describe("Parser", () => {
 
     expect(node.text).toBe("hello world");
     const markup = node.markups[0];
-    expect(markup.start).toEqual(1);
-    expect(markup.end).toEqual(4);
     expect(markup.startTag).toEqual(`<b>`);
     expect(markup.type).toEqual("b");
   });
+
+  it.each([
+    ['hello <span class="hello world">wor</span>ld', [{ start: 7, end: 9 }]],
+    [
+      'hello <span class="hello world">w<b>o</b>r</span>ld',
+      [
+        { start: 7, end: 9 },
+        { start: 8, end: 8 },
+      ],
+    ],
+    ["<b>hell</b>o world", [{ start: 1, end: 4 }]],
+  ])(
+    "should get correct start and end index in %s",
+    (text, expectedMarkups) => {
+      const node = parseHTMLStringToNode(text);
+
+      expectedMarkups.forEach((expected, i) => {
+        const markup = node.markups[i];
+        const { start, end } = expected;
+        expect(markup.start).toEqual(start);
+        expect(markup.end).toEqual(end);
+      });
+    }
+  );
 });
