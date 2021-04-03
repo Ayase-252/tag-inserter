@@ -1,4 +1,4 @@
-import { parseHTMLStringToNode } from "../src";
+import { parseHTMLStringToNode } from "..";
 
 describe("Parser", () => {
   it("should parse text correctly", () => {
@@ -17,7 +17,7 @@ describe("Parser", () => {
       start: 7,
       end: 9,
       startTag: `<span class="hello world">`,
-      type: "span"
+      type: "span",
     });
   });
 
@@ -30,28 +30,26 @@ describe("Parser", () => {
       start: 7,
       end: 9,
       startTag: `<span class="hello world">`,
-      type: "span"
+      type: "span",
     });
 
     expect(node.markups[1]).toEqual({
       start: 8,
       end: 8,
       startTag: `<b>`,
-      type: "b"
+      type: "b",
     });
   });
 
-  it('should parse nested tag in the head of string correctly', () => {
-    const node = parseHTMLStringToNode(
-      `<b>hell</b>o world`
-    );
+  it("should parse nested tag in the head of string correctly", () => {
+    const node = parseHTMLStringToNode(`<b>hell</b>o world`);
 
     expect(node.text).toBe("hello world");
     expect(node.markups[0]).toEqual({
       start: 1,
       end: 4,
       startTag: `<b>`,
-      type: "b"
+      type: "b",
     });
-  })
+  });
 });

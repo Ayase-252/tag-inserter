@@ -32,10 +32,10 @@ export function parseHTMLStringToNode(htmlStr: string): BlockNode {
 
   function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
     function addOffsetForMarkupInsideElement(markups: Markup[]): Markup[] {
-      return markups.map(markup => {
+      return markups.map((markup) => {
         return Object.assign({}, markup, {
           start: currCol + markup.start - 1,
-          end: currCol + markup.end - 1
+          end: currCol + markup.end - 1,
         });
       });
     }
@@ -56,7 +56,7 @@ export function parseHTMLStringToNode(htmlStr: string): BlockNode {
           start: currCol,
           end: currCol + child.textContent.length - 1,
           type: child.nodeName.toLowerCase(),
-          startTag: extractOpeningTagFromElement(child as HTMLElement)
+          startTag: extractOpeningTagFromElement(child as HTMLElement),
         };
         markups.push(
           markupInCurrentChild,
@@ -68,9 +68,8 @@ export function parseHTMLStringToNode(htmlStr: string): BlockNode {
     }
     return {
       text,
-      markups
+      markups,
     };
   }
-
   return parseHTMLElementToBlockNode(fragment);
 }
