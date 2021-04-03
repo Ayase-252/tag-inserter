@@ -17,7 +17,7 @@ function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
     });
   }
   let text = "";
-  const markups = [];
+  const markups: Markup[] = [];
   let currCol = 1;
   for (const child of Array.from(elem.childNodes)) {
     if (!child.textContent) {
