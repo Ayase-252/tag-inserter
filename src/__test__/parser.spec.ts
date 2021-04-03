@@ -1,6 +1,6 @@
 import { parseHTMLStringToNode } from "..";
 
-describe("Parser", () => {
+describe("parseHTMLStringToNode", () => {
   it("should parse text correctly", () => {
     const node = parseHTMLStringToNode("hello world");
 
@@ -65,4 +65,13 @@ describe("Parser", () => {
       });
     }
   );
+
+  it("should parse a tag into markup", () => {
+    const node = parseHTMLStringToNode(
+      `hello<a src="https://hello.com?query=1">wor</a>ld`
+    );
+
+    const markup = node.markups[0];
+    expect(markup.startTag).toEqual('<a src="https://hello.com?query=1">');
+  });
 });
