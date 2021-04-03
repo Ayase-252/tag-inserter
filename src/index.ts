@@ -9,18 +9,16 @@ function createFragmentFromStr(htmlStr: string) {
 }
 
 function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
-  function addOffsetForMarkupInsideElement(
-    markups: Markup[]
-  ): Markup[] {
+  function addOffsetForNestedMarkup(markups: Markup[]): Markup[] {
     return markups.map((markup) => {
-      markup.start = currCol + markup.start - 1
-      markup.end = currCol + markup.end - 1
-      return markup
+      markup.start = currCol + markup.start;
+      markup.end = currCol + markup.end;
+      return markup;
     });
   }
   let text = "";
   const markups: Markup[] = [];
-  let currCol = 1;
+  let currCol = 0;
   for (const child of Array.from(elem.childNodes)) {
     if (!child.textContent) {
       continue;
@@ -39,7 +37,7 @@ function parseHTMLElementToBlockNode(elem: HTMLElement): BlockNode {
       });
       markups.push(
         markupInCurrentChild,
-        ...addOffsetForMarkupInsideElement(markupsInChildNodes)
+        ...addOffsetForNestedMarkup(markupsInChildNodes)
       );
     }
     text += child.textContent;

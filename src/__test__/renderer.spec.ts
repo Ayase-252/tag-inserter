@@ -8,8 +8,8 @@ describe("renderer", () => {
       text: "hello world",
       markups: [
         new Markup({
-          start: 3,
-          end: 4,
+          start: 2,
+          end: 3,
           startTag: "<b>",
           type: "b",
         }),

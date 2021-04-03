@@ -43,15 +43,15 @@ describe("Parser", () => {
   });
 
   it.each([
-    ['hello <span class="hello world">wor</span>ld', [{ start: 7, end: 9 }]],
+    ['hello <span class="hello world">wor</span>ld', [{ start: 6, end: 8 }]],
     [
       'hello <span class="hello world">w<b>o</b>r</span>ld',
       [
-        { start: 7, end: 9 },
-        { start: 8, end: 8 },
+        { start: 6, end: 8 },
+        { start: 7, end: 7 },
       ],
     ],
-    ["<b>hell</b>o world", [{ start: 1, end: 4 }]],
+    ["<b>hell</b>o world", [{ start: 0, end: 3 }]],
   ])(
     "should get correct start and end index in %s",
     (text, expectedMarkups) => {

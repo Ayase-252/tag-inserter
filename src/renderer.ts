@@ -6,14 +6,6 @@ type MarkupEvent = {
   relatedMarkup: Markup;
 };
 
-function getMarkupOpenTag(markup: Markup) {
-  return markup.startTag;
-}
-
-function getMarkupCloseTag(markup: Markup) {
-  return `</${markup.type}>`;
-}
-
 export function renderBlockNode(blockNode: BlockNode): string {
   const eventsMap = new Map<number, MarkupEvent[]>();
   const idxMarks = new Set<number>();
@@ -37,25 +29,25 @@ export function renderBlockNode(blockNode: BlockNode): string {
   });
 
   let renderedText = "";
-  let currIdx = 0;
+  let segStart = 0;
   const sortedIdxMarks = Array.from(idxMarks).sort((a, b) => a - b);
 
-  for (const idx of sortedIdxMarks) {
-    const eventInCurr = eventsMap.get(idx);
-    renderedText += blockNode.text.substring(currIdx, idx - 1);
+  for (const segEnd of sortedIdxMarks) {
+    const eventInCurr = eventsMap.get(segEnd);
+    renderedText += blockNode.text.substring(segStart, segEnd);
 
     eventInCurr &&
       eventInCurr.forEach((event) => {
         if (event.event === "start") {
-          renderedText += getMarkupOpenTag(event.relatedMarkup);
+          renderedText += event.relatedMarkup.startTag;
         } else {
-          renderedText += getMarkupCloseTag(event.relatedMarkup);
+          renderedText += event.relatedMarkup.closeTag;
         }
       });
 
-    currIdx = idx - 1;
+    segStart = segEnd;
   }
 
-  renderedText += blockNode.text.substring(currIdx);
+  renderedText += blockNode.text.substring(segStart);
   return renderedText;
 }
